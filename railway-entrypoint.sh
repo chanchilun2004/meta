@@ -39,6 +39,10 @@ bridge:
     command_prefix: "!meta"
     personal_filtering_spaces: false
     federate_rooms: false
+    permissions:
+        "*": relay
+        "${MATRIX_HOMESERVER_DOMAIN}": user
+        "@admin:${MATRIX_HOMESERVER_DOMAIN}": admin
     relay:
         enabled: false
 
