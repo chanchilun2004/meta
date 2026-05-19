@@ -28,7 +28,7 @@ appservice:
     as_token: ${MAUTRIX_AS_TOKEN}
     hs_token: ${MAUTRIX_HS_TOKEN}
 
-meta:
+network:
     mode: instagram
 
 bridge:
