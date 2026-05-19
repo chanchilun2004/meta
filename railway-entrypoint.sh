@@ -6,8 +6,15 @@ CONFIG="$DATA_DIR/config.yaml"
 
 mkdir -p "$DATA_DIR"
 
-# Always write fresh config from env vars
+# Always write fresh config from env vars (bridgev2 format)
 cat > "$CONFIG" << YAML
+# Database at ROOT level (bridgev2 requirement — NOT under appservice)
+database:
+    type: postgres
+    uri: ${DATABASE_URL}
+    max_open_conns: 5
+    max_idle_conns: 1
+
 homeserver:
     address: ${MATRIX_HOMESERVER_URL}
     domain: ${MATRIX_HOMESERVER_DOMAIN}
@@ -17,9 +24,6 @@ appservice:
     address: ${MAUTRIX_PUBLIC_URL}
     hostname: 0.0.0.0
     port: 29319
-    database:
-        type: postgres
-        uri: ${DATABASE_URL}
     id: meta
     bot:
         username: metabot
@@ -32,20 +36,16 @@ network:
     mode: instagram
 
 bridge:
-    username_template: meta_{{.}}
-    displayname_template: "{{or .DisplayName .Username}} (Instagram)"
-    double_puppet_server_map: {}
-    double_puppet_allow_discovery: false
-    login_shared_secret_map: {}
-    private_chat_portal_meta: default
-    portal_message_buffer: 128
+    command_prefix: "!meta"
+    personal_filtering_spaces: false
     federate_rooms: false
-    encryption:
-        allow: false
-        default: false
-        require: false
     relay:
         enabled: false
+
+encryption:
+    allow: false
+    default: false
+    require: false
 
 logging:
     min_level: debug
